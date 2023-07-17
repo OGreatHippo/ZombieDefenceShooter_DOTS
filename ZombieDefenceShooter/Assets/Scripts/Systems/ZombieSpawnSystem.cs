@@ -15,44 +15,54 @@ namespace ZDS_DOTS
         [BurstCompile]
         public void OnUpdate(ref SystemState state)
         {
-            state.Enabled = false;
+            //state.Enabled = false;
 
-            var gameEntity = SystemAPI.GetSingletonEntity<GameProperties>();
-            var game = SystemAPI.GetAspect<GameAspect>(gameEntity);
+            //var gameEntity = SystemAPI.GetSingletonEntity<GameProperties>();
+            //var game = SystemAPI.GetAspect<GameAspect>(gameEntity);
 
-            var ecb = new EntityCommandBuffer(Unity.Collections.Allocator.Temp);
+            //var ecb = new EntityCommandBuffer(Unity.Collections.Allocator.Temp);
 
-            for (uint i = 0; i < game.numberOfEnemiesToSpawn; i++)
-            {
-                var newEnemy = ecb.Instantiate(game.zombiePrefab);
-                var newEnemyTransform = game.GetRandomSpawnLocation();
-
-                ecb.SetComponent(newEnemy, newEnemyTransform);
-            }
-
-            ecb.Playback(state.EntityManager);
-
-            //new SpawnZombieJob
+            //for (uint i = 0; i < game.numberOfEnemiesToSpawn; i++)
             //{
+            //    var newEnemy = ecb.Instantiate(game.zombiePrefab);
+            //    var newEnemyTransform = game.GetRandomSpawnLocation();
 
-            //}.ScheduleParallel();
+            //    ecb.SetComponent(newEnemy, newEnemyTransform);
+            //}
+
+            //ecb.Playback(state.EntityManager);
+
+            float deltaTime = SystemAPI.Time.DeltaTime;
+            var ecbSingleton = SystemAPI.GetSingleton<BeginInitializationEntityCommandBufferSystem.Singleton>();
+
+            new SpawnZombieJob
+            {
+                deltaTime = deltaTime,
+                ecb = ecbSingleton.CreateCommandBuffer(state.WorldUnmanaged)
+
+            }.Run();
         }
     }
 
-    //[BurstCompile]
-    //public partial struct SpawnZombieJob : IJobEntity
-    //{
-    //    public float deltaTime;
-    //    public EntityCommandBuffer ecb;
+    [BurstCompile]
+    public partial struct SpawnZombieJob : IJobEntity
+    {
+        public float deltaTime;
+        public EntityCommandBuffer ecb;
 
-    //    [BurstCompile]
-    //    private void Execute(GameAspect game)
-    //    {
-    //        game.SpawnTimer = game.EnemySpawnRate;
+        [BurstCompile]
+        private void Execute(GameAspect game)
+        {
+            game.ZombieSpawnTimer -= deltaTime;
 
-    //        var newEnemy = ecb.Instantiate(game.enemyPrefab);
+            if(!game.TimeToSpawnZombie)
+            {
+                return;
+            }
 
-            
-    //    }
-    //}
+            game.ZombieSpawnTimer = game.ZombieSpawnRate;
+
+            var newEnemy = ecb.Instantiate(game.ZombiePrefab);
+        }
+    }
 }
