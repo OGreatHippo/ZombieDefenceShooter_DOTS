@@ -6,13 +6,13 @@ namespace ZDS_DOTS
 {
     public class GameMono : MonoBehaviour
     {
-        public float3 spawnArea;
+        public float2 spawnArea;
         public uint maxNumberOfEnemies = 5;
         public uint currentNumberOfEnemies;
         public uint numberOfEnemiesToWin;
         public GameObject zombies;
-        public uint random;
         public float spawnTimer;
+        public GameObject spawnPoint;
 
         public class GameBaker : Baker<GameMono>
         {
@@ -27,18 +27,12 @@ namespace ZDS_DOTS
                     currentNumberOfEnemies = authoring.currentNumberOfEnemies,
                     numberOfEnemiesToWin = authoring.numberOfEnemiesToWin,
                     zombies = GetEntity(authoring.zombies, TransformUsageFlags.Dynamic),
-                    spawnTimer = authoring.spawnTimer
+                    spawnTimer = authoring.spawnTimer,
+                    spawnPoint = GetEntity(authoring.spawnPoint, TransformUsageFlags.Dynamic)
                 });
 
-                AddComponent(entity, new SpawnTimer
-                {
-                    value = authoring.spawnTimer
-                });
-
-                AddComponent(entity, new RandomSpawn
-                {
-                    random = Unity.Mathematics.Random.CreateFromIndex(authoring.random)
-                });
+                AddComponent<SpawnTimer>(entity);
+                AddComponent<SpawnPoints>(entity);
             }
         }
     }

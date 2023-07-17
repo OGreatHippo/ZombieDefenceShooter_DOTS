@@ -153,15 +153,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   spawnArea:
-    x: 5
-    y: 0
-    z: 10
+    x: 10
+    y: 10
   maxNumberOfEnemies: 1000
   currentNumberOfEnemies: 0
   numberOfEnemiesToWin: 10
   zombies: {fileID: 7003554470017946164, guid: 24692aeb38ae7b742bcbfa437cfa1899, type: 3}
-  random: 1000
-  spawnTimer: 0
+  spawnTimer: 2
+  spawnPoint: {fileID: 7604903564577972250, guid: cbcff00d242fc47429d236322e8b86de,
+    type: 3}
 --- !u!4 &1428020791
 Transform:
   m_ObjectHideFlags: 0
