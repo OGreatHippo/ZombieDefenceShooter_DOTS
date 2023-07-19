@@ -1,7 +1,6 @@
 using Unity.Burst;
 using Unity.Entities;
 using Unity.Mathematics;
-using Unity.Transforms;
 
 namespace ZDS_DOTS
 {
@@ -35,6 +34,8 @@ namespace ZDS_DOTS
                 {
                     var spawnPoint = ecb.Instantiate(game.SpawnPointPrefab);
                     var spawnTransform = game.GetTransform(new float3(x, 0, z));
+
+                    ecb.SetComponent(spawnPoint, spawnTransform);
                 }
             }
 
