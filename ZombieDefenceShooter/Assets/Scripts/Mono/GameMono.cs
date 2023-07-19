@@ -8,6 +8,8 @@ namespace ZDS_DOTS
     {
         public float2 spawnDimensions;
         public GameObject spawnPointPrefab;
+        public GameObject zombiePrefab;
+        public uint spawnRate;
     }
 
     public class Baker : Baker<GameMono>
@@ -19,10 +21,13 @@ namespace ZDS_DOTS
             AddComponent(entity, new GameProperties
             {
                 spawnDimensions = authoring.spawnDimensions,
-                spawnPointPrefab = GetEntity(authoring.spawnPointPrefab, TransformUsageFlags.Dynamic)
+                spawnPointPrefab = GetEntity(authoring.spawnPointPrefab, TransformUsageFlags.Dynamic),
+                zombiePrefab = GetEntity(authoring.zombiePrefab, TransformUsageFlags.Dynamic),
+                spawnRate = authoring.spawnRate
             });
 
             AddComponent<SpawnPoints>(entity);
+            AddComponent<SpawnTimer>(entity);
         }
     }
 }

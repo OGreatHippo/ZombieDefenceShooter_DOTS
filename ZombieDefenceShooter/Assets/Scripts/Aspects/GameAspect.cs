@@ -12,6 +12,7 @@ namespace ZDS_DOTS
 
         private readonly RefRO<GameProperties> properties;
         private readonly RefRW<SpawnPoints> spawnPoints;
+        private readonly RefRW<SpawnTimer> spawnTimer;
 
         public float2 SpawnDimensions => properties.ValueRO.spawnDimensions;
         public Entity SpawnPointPrefab => properties.ValueRO.spawnPointPrefab;
@@ -34,5 +35,17 @@ namespace ZDS_DOTS
         }
 
         private float3 GetSpawnPoint(int i) => spawnPoints.ValueRO.value.Value.value[i];
+
+        public float SpawnTimer
+        {
+            get => spawnTimer.ValueRO.value;
+            set => spawnTimer.ValueRW.value = value;
+        }
+
+        public bool TimeToSpawn => SpawnTimer <= 0f;
+
+        public float SpawnRate => properties.ValueRO.spawnRate;
+
+        public Entity ZombiePrefab => properties.ValueRO.zombiePrefab;
     }
 }
