@@ -1,4 +1,5 @@
 using Unity.Burst;
+using Unity.Collections;
 using Unity.Entities;
 using Unity.Mathematics;
 
@@ -26,7 +27,11 @@ namespace ZDS_DOTS
             var gameEntity = SystemAPI.GetSingletonEntity<GameProperties>();
             var game = SystemAPI.GetAspect<GameAspect>(gameEntity);
 
-            var ecb = new EntityCommandBuffer(Unity.Collections.Allocator.Temp);
+            var ecb = new EntityCommandBuffer(Allocator.Temp);
+
+            var builder = new BlobBuilder(Allocator.Temp);
+            ref var spawnPoints = ref builder.ConstructRoot<SpawnPointsBlob>();
+            var arrayBuilder = builder.Allocate(ref spawnPoints.value, game.SpawnPointCount);
 
             for(uint x = 15; x < game.SpawnDimensions.x; x++)
             {
@@ -36,8 +41,17 @@ namespace ZDS_DOTS
                     var spawnTransform = game.GetTransform(new float3(x, 0, z));
 
                     ecb.SetComponent(spawnPoint, spawnTransform);
+
+                    for(int i = 0; i < game.SpawnPointCount; i++)
+                    {
+                        arrayBuilder[i] = spawnTransform.Position;
+                    }
                 }
             }
+
+            var blobAsset = builder.CreateBlobAssetReference<SpawnPointsBlob>(Allocator.Persistent);
+            ecb.SetComponent(gameEntity, new SpawnPoints { value = blobAsset });
+            builder.Dispose();
 
             ecb.Playback(state.EntityManager);
         }

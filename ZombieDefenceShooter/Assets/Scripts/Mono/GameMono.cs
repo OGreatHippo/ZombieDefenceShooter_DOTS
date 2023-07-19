@@ -21,6 +21,8 @@ namespace ZDS_DOTS
                 spawnDimensions = authoring.spawnDimensions,
                 spawnPointPrefab = GetEntity(authoring.spawnPointPrefab, TransformUsageFlags.Dynamic)
             });
+
+            AddComponent<SpawnPoints>(entity);
         }
     }
 }

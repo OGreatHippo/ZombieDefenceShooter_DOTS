@@ -1,4 +1,5 @@
 using System.Numerics;
+using Unity.Collections;
 using Unity.Entities;
 using Unity.Mathematics;
 using Unity.Transforms;
@@ -10,9 +11,17 @@ namespace ZDS_DOTS
         public readonly Entity entity;
 
         private readonly RefRO<GameProperties> properties;
-        
+        private readonly RefRW<SpawnPoints> spawnPoints;
+
         public float2 SpawnDimensions => properties.ValueRO.spawnDimensions;
         public Entity SpawnPointPrefab => properties.ValueRO.spawnPointPrefab;
+
+        public bool SpawnPointInitialised()
+        {
+            return spawnPoints.ValueRO.value.IsCreated && SpawnPointCount > 0;
+        }
+
+        public int SpawnPointCount => (int)properties.ValueRO.spawnDimensions.x * (int)properties.ValueRO.spawnDimensions.y;
 
         public LocalTransform GetTransform(float3 pos)
         {
@@ -23,5 +32,7 @@ namespace ZDS_DOTS
                 Scale = 1f
             };
         }
+
+        private float3 GetSpawnPoint(int i) => spawnPoints.ValueRO.value.Value.value[i];
     }
 }
