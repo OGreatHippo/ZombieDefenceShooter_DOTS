@@ -9,7 +9,6 @@ namespace ZDS_DOTS
     {
         public readonly Entity entity;
 
-        private readonly RefRW<LocalTransform> transform;
         private readonly RefRO<GameProperties> properties;
         
         public float2 SpawnDimensions => properties.ValueRO.spawnDimensions;

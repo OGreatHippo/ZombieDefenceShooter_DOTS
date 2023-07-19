@@ -28,7 +28,7 @@ namespace ZDS_DOTS
 
             var ecb = new EntityCommandBuffer(Unity.Collections.Allocator.Temp);
 
-            for(uint x = 0; x < game.SpawnDimensions.x; x++)
+            for(uint x = 15; x < game.SpawnDimensions.x; x++)
             {
                 for (uint z = 0; z < game.SpawnDimensions.y; z++)
                 {
