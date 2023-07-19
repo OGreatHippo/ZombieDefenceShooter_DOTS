@@ -13,6 +13,7 @@ namespace ZDS_DOTS
         private readonly RefRO<GameProperties> properties;
         private readonly RefRW<SpawnPoints> spawnPoints;
         private readonly RefRW<SpawnTimer> spawnTimer;
+        private readonly RefRW<GameRandom> gameRandom;
 
         public float2 SpawnDimensions => properties.ValueRO.spawnDimensions;
         public Entity SpawnPointPrefab => properties.ValueRO.spawnPointPrefab;
@@ -32,6 +33,23 @@ namespace ZDS_DOTS
                 Rotation = new quaternion(0, -90f, 0, 0),
                 Scale = 1f
             };
+        }
+
+        public LocalTransform GetZombieSpawnLocation()
+        {
+            var position = GetRandomSpawnPoint();
+
+            return new LocalTransform
+            {
+                Position = position,
+                Rotation = quaternion.identity,
+                Scale = 1f
+            };
+        }
+
+        private float3 GetRandomSpawnPoint()
+        {
+            return GetSpawnPoint(gameRandom.ValueRW.random.NextInt(SpawnPointCount));
         }
 
         private float3 GetSpawnPoint(int i) => spawnPoints.ValueRO.value.Value.value[i];

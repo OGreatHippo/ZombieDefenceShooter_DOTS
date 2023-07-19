@@ -38,6 +38,8 @@ namespace ZDS_DOTS
     {
         public float deltaTime;
         public EntityCommandBuffer ecb;
+
+        [BurstCompile]
         private void Execute(GameAspect game)
         {
             game.SpawnTimer -= deltaTime;
@@ -47,9 +49,17 @@ namespace ZDS_DOTS
                 return;
             }
 
+            if(!game.SpawnPointInitialised())
+            {
+                return;
+            }
+
             game.SpawnTimer = game.SpawnRate;
 
             var newZombie = ecb.Instantiate(game.ZombiePrefab);
+
+            var newZombieTransform = game.GetZombieSpawnLocation();
+            ecb.SetComponent(newZombie, newZombieTransform);
         }
     }
 }

@@ -28,6 +28,7 @@ namespace ZDS_DOTS
 
             AddComponent<SpawnPoints>(entity);
             AddComponent<SpawnTimer>(entity);
+            AddComponent<GameRandom>(entity);
         }
     }
 }
