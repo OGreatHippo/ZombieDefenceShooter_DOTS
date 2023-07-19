@@ -33,20 +33,24 @@ namespace ZDS_DOTS
             ref var spawnPoints = ref builder.ConstructRoot<SpawnPointsBlob>();
             var arrayBuilder = builder.Allocate(ref spawnPoints.value, game.SpawnPointCount);
 
-            for(uint x = 15; x < game.SpawnDimensions.x; x++)
+            var spList = new NativeList<float3>(Allocator.Temp);
+
+            for(uint x = 15; x <= game.SpawnDimensions.x; x++)
             {
-                for (uint z = 0; z < game.SpawnDimensions.y; z++)
+                for (uint z = 0; z <= game.SpawnDimensions.y; z++)
                 {
                     var spawnPoint = ecb.Instantiate(game.SpawnPointPrefab);
                     var spawnTransform = game.GetTransform(new float3(x, 0, z));
 
                     ecb.SetComponent(spawnPoint, spawnTransform);
 
-                    for(int i = 0; i < game.SpawnPointCount; i++)
-                    {
-                        arrayBuilder[i] = spawnTransform.Position;
-                    }
+                    spList.Add(spawnTransform.Position);
                 }
+            }
+
+            for (int i = 0; i < game.SpawnPointCount; i++)
+            {
+                arrayBuilder[i] = spList[i];
             }
 
             var blobAsset = builder.CreateBlobAssetReference<SpawnPointsBlob>(Allocator.Persistent);
