@@ -39,6 +39,8 @@ namespace ZDS_DOTS
         private void Execute(ZombieWalkAspect zombie)
         {
             zombie.Move(deltaTime);
+
+            //if(zombie.InStoppingRange())
         }
     }
 }

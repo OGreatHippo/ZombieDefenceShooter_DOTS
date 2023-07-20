@@ -9,16 +9,15 @@ namespace ZDS_DOTS
     {
         private readonly RefRO<ZombieProperties> properties;
         private readonly RefRW<LocalTransform> localTransform;
-        private readonly RefRO<BarricadeProperties> barricadeProperties;
 
         public void Move(float deltaTime)
         {
-            if(math.distance(barricadeProperties.ValueRO.transform, localTransform.ValueRO.Position) >= barricade_Distance)
-            {
-                localTransform.ValueRW.Position += math.left() * properties.ValueRO.walkSpeed * deltaTime;
-            }
+            localTransform.ValueRW.Position += math.left() * properties.ValueRO.walkSpeed * deltaTime;
         }
 
-        private const float barricade_Distance = 5;
+        public bool InStoppingRange(float3 barricadePos, float barricadeDistance)
+        {
+            return math.distance(barricadePos, localTransform.ValueRO.Position) <= barricadeDistance;
+        }
     }
 }
