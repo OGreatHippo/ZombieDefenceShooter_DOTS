@@ -4,6 +4,7 @@ using Unity.Entities;
 namespace ZDS_DOTS
 {
     [BurstCompile]
+    [UpdateAfter(typeof(SpawnZombieSystem))]
     public partial struct ZombieSystem : ISystem
     {
         [BurstCompile]
@@ -22,10 +23,12 @@ namespace ZDS_DOTS
         public void OnUpdate(ref SystemState state)
         {
             float deltaTime = SystemAPI.Time.DeltaTime;
+            var ecbSingleton = SystemAPI.GetSingleton<EndSimulationEntityCommandBufferSystem.Singleton>();
 
             new WalkJob
             {
-                deltaTime = deltaTime 
+                deltaTime = deltaTime,
+                ecb = ecbSingleton.CreateCommandBuffer(state.WorldUnmanaged).AsParallelWriter()
             }.ScheduleParallel();
         }
     }
@@ -34,13 +37,19 @@ namespace ZDS_DOTS
     public partial struct WalkJob : IJobEntity
     {
         public float deltaTime;
+        public EntityCommandBuffer.ParallelWriter ecb;
 
         [BurstCompile]
-        private void Execute(ZombieWalkAspect zombie)
+        private void Execute(ZombieWalkAspect zombie, [ChunkIndexInQuery] int sortKey)
         {
             zombie.Move(deltaTime);
 
-            //if(zombie.InStoppingRange())
+            if (!zombie.InStoppingRange())
+            {
+                return;
+            }
+
+            ecb.SetComponentEnabled<ZombieProperties>(sortKey, zombie.entity, false);
         }
     }
 }
