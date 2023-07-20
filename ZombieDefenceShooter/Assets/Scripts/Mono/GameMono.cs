@@ -9,11 +9,11 @@ namespace ZDS_DOTS
         public float2 spawnDimensions;
         public GameObject spawnPointPrefab;
         public GameObject zombiePrefab;
-        public uint spawnRate;
+        public float spawnRate;
         public uint randomSeed;
     }
 
-    public class Baker : Baker<GameMono>
+    public class GameBaker : Baker<GameMono>
     {
         public override void Bake(GameMono authoring)
         {
