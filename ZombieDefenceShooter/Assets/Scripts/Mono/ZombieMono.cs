@@ -6,6 +6,8 @@ namespace ZDS_DOTS
     public class ZombieMono : MonoBehaviour
     {
         public float walkSpeed;
+        public uint damage;
+        public uint attackSpeed;
     }
 
     public class ZombieBaker : Baker<ZombieMono>
@@ -18,6 +20,17 @@ namespace ZDS_DOTS
             AddComponent(entity, new ZombieProperties
             {
                 walkSpeed = authoring.walkSpeed
+            });
+
+            AddComponent(entity, new ZombieAttackProperties
+            {
+                damage = authoring.damage,
+                attackSpeed = authoring.attackSpeed
+            });
+
+            AddComponent(entity, new ZombieTimer
+            {
+                value = authoring.attackSpeed
             });
         }
     }

@@ -5,7 +5,8 @@ namespace ZDS_DOTS
 {
     public class BarricadeMono : MonoBehaviour
     {
-        public uint health;
+        public uint currentHealth;
+        public uint maxHealth;
     }
 
     public class BarricadeBaker : Baker<BarricadeMono>
@@ -16,12 +17,13 @@ namespace ZDS_DOTS
 
             AddComponent(entity, new BarricadeProperties
             {
-                health = authoring.health,
+                currentHealth = authoring.currentHealth,
+                maxHealth = authoring.maxHealth,
                 transform = authoring.transform.position
             });
 
             AddComponent<BarricadeTag>(entity);
-                
+            AddBuffer<BarricadeDamageBufferElement>(entity);
         }
     }
 }

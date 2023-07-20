@@ -1,18 +1,16 @@
 using Unity.Burst;
 using Unity.Entities;
-using Unity.Mathematics;
-using Unity.Transforms;
 
 namespace ZDS_DOTS
 {
     [BurstCompile]
-    [UpdateAfter(typeof(SpawnZombieSystem))]
-    public partial struct ZombieSystem : ISystem
+    [UpdateAfter(typeof(ZombieSystem))]
+    public partial struct ZombieAttackSystem : ISystem
     {
         [BurstCompile]
         public void OnCreate(ref SystemState state)
         {
-
+            state.RequireForUpdate<BarricadeTag>();
         }
 
         [BurstCompile]
@@ -26,39 +24,29 @@ namespace ZDS_DOTS
         {
             float deltaTime = SystemAPI.Time.DeltaTime;
             var ecbSingleton = SystemAPI.GetSingleton<EndSimulationEntityCommandBufferSystem.Singleton>();
-            float distance = 1.1f;
-
             var barricadeEntity = SystemAPI.GetSingletonEntity<BarricadeTag>();
-            float3 barricadeTransform = SystemAPI.GetComponent<LocalTransform>(barricadeEntity).Position;
-            
-            new WalkJob
+
+            new AttackJob
             {
                 deltaTime = deltaTime,
                 ecb = ecbSingleton.CreateCommandBuffer(state.WorldUnmanaged).AsParallelWriter(),
-                distance = distance,
-                barricadeTransform = barricadeTransform
+                barricadeEntity = barricadeEntity
             }.ScheduleParallel();
         }
     }
 
     [BurstCompile]
-    public partial struct WalkJob : IJobEntity
+    public partial struct AttackJob : IJobEntity
     {
         public float deltaTime;
         public EntityCommandBuffer.ParallelWriter ecb;
-        public float distance;
-        public float3 barricadeTransform;
+        public Entity barricadeEntity;
 
         [BurstCompile]
-        private void Execute(ZombieWalkAspect zombie, [ChunkIndexInQuery] int sortKey)
+        private void Execute(ZombieAttackAspect zombie, [ChunkIndexInQuery] int sortKey)
         {
-            zombie.Move(deltaTime);
-
-            if (zombie.InStoppingRange(barricadeTransform, distance))
-            {
-                ecb.SetComponentEnabled<ZombieProperties>(sortKey, zombie.entity, false);
-                ecb.SetComponentEnabled<ZombieAttackProperties>(sortKey, zombie.entity, true);
-            }
+            //if()
+            zombie.Attack(deltaTime, ecb, sortKey, barricadeEntity);
         }
     }
 }

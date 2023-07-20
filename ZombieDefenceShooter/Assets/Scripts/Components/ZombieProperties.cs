@@ -6,4 +6,15 @@ namespace ZDS_DOTS
     {
         public float walkSpeed;
     }
+
+    public struct ZombieAttackProperties : IComponentData, IEnableableComponent
+    {
+        public uint damage;
+        public uint attackSpeed;
+    }
+
+    public struct ZombieTimer : IComponentData
+    {
+        public float value;
+    }
 }

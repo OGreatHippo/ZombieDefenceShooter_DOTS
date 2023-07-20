@@ -5,7 +5,8 @@ namespace ZDS_DOTS
 {
     public struct BarricadeProperties : IComponentData
     {
-        public uint health;
+        public uint currentHealth;
+        public uint maxHealth;
         public float3 transform;
     }
 
