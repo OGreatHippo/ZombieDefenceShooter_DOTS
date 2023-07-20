@@ -33,9 +33,9 @@ namespace ZDS_DOTS
             ref var spawnPoints = ref builder.ConstructRoot<SpawnPointsBlob>();
             var arrayBuilder = builder.Allocate(ref spawnPoints.value, game.SpawnPointCount);
 
-            var spList = new NativeList<float3>(Allocator.Temp);
+            int i = 0;
 
-            for(uint x = 15; x <= game.SpawnDimensions.x; x++)
+            for (uint x = 15; x <= game.SpawnDimensions.x; x++)
             {
                 for (uint z = 0; z <= game.SpawnDimensions.y; z++)
                 {
@@ -44,13 +44,10 @@ namespace ZDS_DOTS
 
                     ecb.SetComponent(spawnPoint, spawnTransform);
 
-                    spList.Add(spawnTransform.Position);
-                }
-            }
+                    arrayBuilder[i] = spawnTransform.Position;
 
-            for (int i = 0; i < game.SpawnPointCount; i++)
-            {
-                arrayBuilder[i] = spList[i];
+                    i++;
+                }
             }
 
             var blobAsset = builder.CreateBlobAssetReference<SpawnPointsBlob>(Allocator.Persistent);

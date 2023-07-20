@@ -23,7 +23,7 @@ namespace ZDS_DOTS
             return spawnPoints.ValueRO.value.IsCreated && SpawnPointCount > 0;
         }
 
-        public int SpawnPointCount => (int)properties.ValueRO.spawnDimensions.x / (int)properties.ValueRO.spawnDimensions.y;
+        public int SpawnPointCount => (int)properties.ValueRO.spawnDimensions.x * (int)properties.ValueRO.spawnDimensions.y;
 
         public LocalTransform GetTransform(float3 pos)
         {

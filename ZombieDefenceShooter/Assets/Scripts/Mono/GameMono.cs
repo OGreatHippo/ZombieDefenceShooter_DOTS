@@ -10,6 +10,7 @@ namespace ZDS_DOTS
         public GameObject spawnPointPrefab;
         public GameObject zombiePrefab;
         public uint spawnRate;
+        public uint randomSeed;
     }
 
     public class Baker : Baker<GameMono>
@@ -28,7 +29,11 @@ namespace ZDS_DOTS
 
             AddComponent<SpawnPoints>(entity);
             AddComponent<SpawnTimer>(entity);
-            AddComponent<GameRandom>(entity);
+
+            AddComponent(entity, new GameRandom
+            {
+                random = Unity.Mathematics.Random.CreateFromIndex(authoring.randomSeed)
+            });
         }
     }
 }
