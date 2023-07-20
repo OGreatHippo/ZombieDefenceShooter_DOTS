@@ -24,7 +24,9 @@ namespace ZDS_DOTS
                 spawnDimensions = authoring.spawnDimensions,
                 spawnPointPrefab = GetEntity(authoring.spawnPointPrefab, TransformUsageFlags.Dynamic),
                 zombiePrefab = GetEntity(authoring.zombiePrefab, TransformUsageFlags.Dynamic),
-                spawnRate = authoring.spawnRate
+                spawnRate = authoring.spawnRate,
+
+                transform = authoring.gameObject.transform.position
             });
 
             AddComponent<SpawnPoints>(entity);

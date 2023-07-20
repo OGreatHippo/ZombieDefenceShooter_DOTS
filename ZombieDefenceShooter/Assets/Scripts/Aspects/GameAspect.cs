@@ -23,7 +23,7 @@ namespace ZDS_DOTS
             return spawnPoints.ValueRO.value.IsCreated && SpawnPointCount > 0;
         }
 
-        public int SpawnPointCount => (int)properties.ValueRO.spawnDimensions.x * (int)properties.ValueRO.spawnDimensions.y;
+        public int SpawnPointCount => 25; //((int)properties.ValueRO.spawnDimensions.x - (int)properties.ValueRO.transform.x) * ((int)properties.ValueRO.spawnDimensions.y - (int)properties.ValueRO.transform.z);
 
         public LocalTransform GetTransform(float3 pos)
         {
@@ -65,5 +65,8 @@ namespace ZDS_DOTS
         public float SpawnRate => properties.ValueRO.spawnRate;
 
         public Entity ZombiePrefab => properties.ValueRO.zombiePrefab;
+
+        public int xTransform => (int)properties.ValueRO.transform.x;
+        public int zTransform => (int)properties.ValueRO.transform.z;
     }
 }

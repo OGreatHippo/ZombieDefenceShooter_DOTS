@@ -19,6 +19,7 @@ namespace ZDS_DOTS
         {
 
         }
+
         [BurstCompile]
         public void OnUpdate(ref SystemState state)
         {
@@ -35,9 +36,9 @@ namespace ZDS_DOTS
 
             int i = 0;
 
-            for (uint x = 15; x <= game.SpawnDimensions.x; x++)
+            for (int x = game.xTransform; x <= game.SpawnDimensions.x; x++)
             {
-                for (uint z = 0; z <= game.SpawnDimensions.y; z++)
+                for (int z = game.zTransform; z <= game.SpawnDimensions.y; z++)
                 {
                     var spawnPoint = ecb.Instantiate(game.SpawnPointPrefab);
                     var spawnTransform = game.GetTransform(new float3(x, 0, z));
