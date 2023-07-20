@@ -19,6 +19,8 @@ namespace ZDS_DOTS
                 health = authoring.health,
                 transform = authoring.transform.position
             });
+
+            AddComponent<BarricadeTag>(entity);
                 
         }
     }

@@ -8,4 +8,9 @@ namespace ZDS_DOTS
         public uint health;
         public float3 transform;
     }
+
+    public struct BarricadeTag : IComponentData
+    {
+
+    }
 }

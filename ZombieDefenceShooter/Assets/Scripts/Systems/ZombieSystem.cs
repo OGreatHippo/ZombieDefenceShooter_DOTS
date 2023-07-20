@@ -1,5 +1,7 @@
 using Unity.Burst;
 using Unity.Entities;
+using Unity.Mathematics;
+using Unity.Transforms;
 
 namespace ZDS_DOTS
 {
@@ -26,11 +28,15 @@ namespace ZDS_DOTS
             var ecbSingleton = SystemAPI.GetSingleton<EndSimulationEntityCommandBufferSystem.Singleton>();
             float distance = 1.1f;
 
+            var barricadeEntity = SystemAPI.GetSingletonEntity<BarricadeTag>();
+            float3 barricadeTransform = SystemAPI.GetComponent<LocalTransform>(barricadeEntity).Position;
+
             new WalkJob
             {
                 deltaTime = deltaTime,
                 ecb = ecbSingleton.CreateCommandBuffer(state.WorldUnmanaged).AsParallelWriter(),
-                distance = distance
+                distance = distance,
+                barricadeTransform = barricadeTransform
             }.ScheduleParallel();
         }
     }
@@ -41,13 +47,14 @@ namespace ZDS_DOTS
         public float deltaTime;
         public EntityCommandBuffer.ParallelWriter ecb;
         public float distance;
+        public float3 barricadeTransform;
 
         [BurstCompile]
         private void Execute(ZombieWalkAspect zombie, [ChunkIndexInQuery] int sortKey)
         {
             zombie.Move(deltaTime);
 
-            if (zombie.InStoppingRange(new Unity.Mathematics.float3(-8, 0, -2), distance))
+            if (zombie.InStoppingRange(barricadeTransform, distance))
             {
                 ecb.SetComponentEnabled<ZombieProperties>(sortKey, zombie.entity, false);
             }
