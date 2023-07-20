@@ -24,11 +24,13 @@ namespace ZDS_DOTS
         {
             float deltaTime = SystemAPI.Time.DeltaTime;
             var ecbSingleton = SystemAPI.GetSingleton<EndSimulationEntityCommandBufferSystem.Singleton>();
+            float distance = 1.1f;
 
             new WalkJob
             {
                 deltaTime = deltaTime,
-                ecb = ecbSingleton.CreateCommandBuffer(state.WorldUnmanaged).AsParallelWriter()
+                ecb = ecbSingleton.CreateCommandBuffer(state.WorldUnmanaged).AsParallelWriter(),
+                distance = distance
             }.ScheduleParallel();
         }
     }
@@ -38,18 +40,17 @@ namespace ZDS_DOTS
     {
         public float deltaTime;
         public EntityCommandBuffer.ParallelWriter ecb;
+        public float distance;
 
         [BurstCompile]
         private void Execute(ZombieWalkAspect zombie, [ChunkIndexInQuery] int sortKey)
         {
             zombie.Move(deltaTime);
 
-            if (!zombie.InStoppingRange())
+            if (zombie.InStoppingRange(new Unity.Mathematics.float3(-8, 0, -2), distance))
             {
-                return;
+                ecb.SetComponentEnabled<ZombieProperties>(sortKey, zombie.entity, false);
             }
-
-            ecb.SetComponentEnabled<ZombieProperties>(sortKey, zombie.entity, false);
         }
     }
 }
