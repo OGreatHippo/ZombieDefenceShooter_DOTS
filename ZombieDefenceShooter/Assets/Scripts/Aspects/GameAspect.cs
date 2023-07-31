@@ -10,7 +10,7 @@ namespace ZDS_DOTS
     {
         public readonly Entity entity;
 
-        private readonly RefRO<GameProperties> properties;
+        private readonly RefRW<GameProperties> properties;
         private readonly RefRW<SpawnPoints> spawnPoints;
         private readonly RefRW<SpawnTimer> spawnTimer;
         private readonly RefRW<GameRandom> gameRandom;
@@ -70,5 +70,11 @@ namespace ZDS_DOTS
         public int zTransform => (int)properties.ValueRO.transform.z;
 
         public bool Spawnable => properties.ValueRO.currentSpawns < properties.ValueRO.maxSpawns;
+
+        public uint CurrentSpawns
+        {
+            get => properties.ValueRO.currentSpawns;
+            set => properties.ValueRW.currentSpawns = value;
+        }
     }
 }
