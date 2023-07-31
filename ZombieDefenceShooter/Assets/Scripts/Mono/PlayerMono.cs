@@ -23,6 +23,8 @@ namespace ZDS_DOTS
                 attackSpeed = authoring.attackSpeed,
                 bullet = GetEntity(authoring.bullet, TransformUsageFlags.Dynamic)
             });
+
+            AddComponent<ShootTimer>(entity);
         }
     }
 }

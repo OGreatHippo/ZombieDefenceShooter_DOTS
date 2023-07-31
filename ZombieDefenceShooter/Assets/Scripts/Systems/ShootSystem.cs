@@ -1,5 +1,6 @@
 using Unity.Burst;
 using Unity.Entities;
+using UnityEngine;
 
 namespace ZDS_DOTS
 {
@@ -41,7 +42,10 @@ namespace ZDS_DOTS
         [BurstCompile]
         private void Execute(PlayerAspect player)
         {
-            player.Shoot(deltaTime, ecb);
+            if(Input.GetMouseButtonDown(0))
+            {
+                player.Shoot(deltaTime, ecb);
+            }
         }
     }
 }

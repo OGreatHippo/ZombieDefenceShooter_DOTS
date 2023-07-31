@@ -1,4 +1,5 @@
 using Unity.Entities;
+using Unity.Mathematics;
 using Unity.Transforms;
 
 namespace ZDS_DOTS
@@ -8,7 +9,7 @@ namespace ZDS_DOTS
         public readonly Entity entity;
 
         private readonly RefRO<PlayerProperties> playerProperties;
-        //private readonly RefRO<LocalTransform> localTransform;
+        private readonly RefRO<LocalTransform> localTransform;
         private readonly RefRW<ShootTimer> shootTimer;
 
         public uint Damage => playerProperties.ValueRO.damage;
@@ -28,8 +29,20 @@ namespace ZDS_DOTS
             {
                 ShootTimer = AttackSpeed;
 
-                ecb.Instantiate(playerProperties.ValueRO.bullet);
+                var newBullet = ecb.Instantiate(playerProperties.ValueRO.bullet);
+
+                ecb.SetComponent(newBullet, SpawnPosition());
             }
+        }
+
+        public LocalTransform SpawnPosition()
+        {
+            return new LocalTransform
+            {
+                Position = localTransform.ValueRO.Position,
+                Rotation = quaternion.identity,
+                Scale = localTransform.ValueRO.Scale
+            };
         }
     }
 }
