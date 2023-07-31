@@ -42,10 +42,7 @@ namespace ZDS_DOTS
         [BurstCompile]
         private void Execute(PlayerAspect player)
         {
-            if(Input.GetMouseButtonDown(0))
-            {
-                player.Shoot(deltaTime, ecb);
-            }
+            player.Shoot(deltaTime, ecb);
         }
     }
 }
