@@ -68,5 +68,7 @@ namespace ZDS_DOTS
 
         public int xTransform => (int)properties.ValueRO.transform.x;
         public int zTransform => (int)properties.ValueRO.transform.z;
+
+        public bool Spawnable => properties.ValueRO.currentSpawns < properties.ValueRO.maxSpawns;
     }
 }

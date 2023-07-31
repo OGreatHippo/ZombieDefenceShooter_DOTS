@@ -12,6 +12,10 @@ namespace ZDS_DOTS
         public Entity spawnPointPrefab;
         public Entity zombiePrefab;
         public float spawnRate;
+
+        public uint maxSpawns;
+        public uint currentSpawns;
+        public uint remainingSpawns;
     }
 
     public struct SpawnTimer : IComponentData 

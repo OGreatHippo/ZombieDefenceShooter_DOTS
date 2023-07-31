@@ -11,6 +11,10 @@ namespace ZDS_DOTS
         public GameObject zombiePrefab;
         public float spawnRate;
         public uint randomSeed;
+
+        public uint maxSpawns;
+        public uint currentSpawns;
+        public uint remainingSpawns;
     }
 
     public class GameBaker : Baker<GameMono>
@@ -25,8 +29,10 @@ namespace ZDS_DOTS
                 spawnPointPrefab = GetEntity(authoring.spawnPointPrefab, TransformUsageFlags.Dynamic),
                 zombiePrefab = GetEntity(authoring.zombiePrefab, TransformUsageFlags.Dynamic),
                 spawnRate = authoring.spawnRate,
-
-                transform = authoring.gameObject.transform.position
+                transform = authoring.gameObject.transform.position,
+                maxSpawns = authoring.maxSpawns,
+                currentSpawns = authoring.currentSpawns,
+                remainingSpawns = authoring.remainingSpawns
             });
 
             AddComponent<SpawnPoints>(entity);

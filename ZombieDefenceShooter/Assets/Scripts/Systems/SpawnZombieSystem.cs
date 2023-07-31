@@ -54,12 +54,15 @@ namespace ZDS_DOTS
                 return;
             }
 
-            game.SpawnTimer = game.SpawnRate;
+            do
+            {
+                game.SpawnTimer = game.SpawnRate;
 
-            var newZombie = ecb.Instantiate(game.ZombiePrefab);
+                var newZombie = ecb.Instantiate(game.ZombiePrefab);
 
-            var newZombieTransform = game.GetZombieSpawnLocation();
-            ecb.SetComponent(newZombie, newZombieTransform);
+                var newZombieTransform = game.GetZombieSpawnLocation();
+                ecb.SetComponent(newZombie, newZombieTransform);
+            } while (game.Spawnable);
         }
     }
 }
