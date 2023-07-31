@@ -56,13 +56,13 @@ namespace ZDS_DOTS
 
             if (zombie.InStoppingRange(barricadeTransform, distance))
             {
-                ecb.SetComponentEnabled<ZombieProperties>(sortKey, zombie.entity, false);
+                ecb.SetComponentEnabled<ZombieWalkProperties>(sortKey, zombie.entity, false);
                 ecb.SetComponentEnabled<ZombieAttackProperties>(sortKey, zombie.entity, true);
             }
 
             else
             {
-                ecb.SetComponentEnabled<ZombieProperties>(sortKey, zombie.entity, true);
+                ecb.SetComponentEnabled<ZombieWalkProperties>(sortKey, zombie.entity, true);
                 ecb.SetComponentEnabled<ZombieAttackProperties>(sortKey, zombie.entity, false);
             }
         }

@@ -1,14 +1,13 @@
 using Unity.Entities;
 using Unity.Mathematics;
 using Unity.Transforms;
-using UnityEngine;
 
 namespace ZDS_DOTS
 {
     public readonly partial struct ZombieWalkAspect : IAspect
     {
         public readonly Entity entity;
-        private readonly RefRO<ZombieProperties> properties;
+        private readonly RefRO<ZombieWalkProperties> properties;
         private readonly RefRW<LocalTransform> localTransform;
 
         public void Move(float deltaTime)

@@ -2,7 +2,12 @@ using Unity.Entities;
 
 namespace ZDS_DOTS
 {
-    public struct ZombieProperties : IComponentData, IEnableableComponent
+    public struct ZombieProperties : IComponentData
+    {
+        public uint health;
+    }
+
+    public struct ZombieWalkProperties : IComponentData, IEnableableComponent
     {
         public float walkSpeed;
     }

@@ -11,13 +11,12 @@ namespace ZDS_DOTS
     }
 
     public class ZombieBaker : Baker<ZombieMono>
-    {
-        
+    { 
         public override void Bake(ZombieMono authoring)
         {
             Entity entity = GetEntity(TransformUsageFlags.Dynamic);
 
-            AddComponent(entity, new ZombieProperties
+            AddComponent(entity, new ZombieWalkProperties
             {
                 walkSpeed = authoring.walkSpeed
             });
