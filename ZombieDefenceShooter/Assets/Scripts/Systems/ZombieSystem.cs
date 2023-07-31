@@ -59,6 +59,12 @@ namespace ZDS_DOTS
                 ecb.SetComponentEnabled<ZombieProperties>(sortKey, zombie.entity, false);
                 ecb.SetComponentEnabled<ZombieAttackProperties>(sortKey, zombie.entity, true);
             }
+
+            else
+            {
+                ecb.SetComponentEnabled<ZombieProperties>(sortKey, zombie.entity, true);
+                ecb.SetComponentEnabled<ZombieAttackProperties>(sortKey, zombie.entity, false);
+            }
         }
     }
 }

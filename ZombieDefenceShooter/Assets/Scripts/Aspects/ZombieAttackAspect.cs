@@ -31,10 +31,5 @@ namespace ZDS_DOTS
                 ecb.AppendToBuffer(sortKey, barricadeEntity, barricadeDamage);
             } 
         }
-
-        //public bool InAttackRange()
-        //{
-
-        //}
     }
 }

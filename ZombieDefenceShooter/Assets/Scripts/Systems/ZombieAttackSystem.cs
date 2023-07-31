@@ -45,7 +45,6 @@ namespace ZDS_DOTS
         [BurstCompile]
         private void Execute(ZombieAttackAspect zombie, [ChunkIndexInQuery] int sortKey)
         {
-            //if()
             zombie.Attack(deltaTime, ecb, sortKey, barricadeEntity);
         }
     }
