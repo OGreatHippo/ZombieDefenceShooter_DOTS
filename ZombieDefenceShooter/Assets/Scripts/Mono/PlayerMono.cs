@@ -11,7 +11,7 @@ namespace ZDS_DOTS
         public GameObject bullet;
     }
 
-    public class Baker : Baker<PlayerMono>
+    public class PlayerBaker : Baker<PlayerMono>
     {
         public override void Bake(PlayerMono authoring)
         {
