@@ -15,5 +15,10 @@ namespace ZDS_DOTS
         {
             localTransform.ValueRW.Position += math.right() * properties.ValueRO.speed * deltaTime;
         }
+
+        public void Spawn()
+        {
+
+        }
     }
 }

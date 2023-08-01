@@ -13,26 +13,12 @@ namespace ZDS_DOTS
         private readonly RefRW<ShootTimer> shootTimer;
 
         public uint Damage => playerProperties.ValueRO.damage;
-        private uint AttackSpeed => playerProperties.ValueRO.attackSpeed;
+        public uint AttackSpeed => playerProperties.ValueRO.attackSpeed;
 
         public float ShootTimer
         {
             get => shootTimer.ValueRO.value;
             set => shootTimer.ValueRW.value = value;
-        }
-
-        public void Shoot(float deltaTime, EntityCommandBuffer ecb)
-        {
-            ShootTimer -= deltaTime;
-
-            if(ShootTimer < 0)
-            {
-                ShootTimer = AttackSpeed;
-
-                var newBullet = ecb.Instantiate(playerProperties.ValueRO.bullet);
-
-                ecb.SetComponent(newBullet, SpawnPosition());
-            }
         }
 
         public LocalTransform SpawnPosition()
@@ -44,5 +30,7 @@ namespace ZDS_DOTS
                 Scale = localTransform.ValueRO.Scale
             };
         }
+
+        public Entity Bullet => playerProperties.ValueRO.bullet;
     }
 }

@@ -50,7 +50,16 @@ namespace ZDS_DOTS
         {
             if(shouldShoot)
             {
-                player.Shoot(deltaTime, ecb);
+                player.ShootTimer -= deltaTime;
+
+                if (player.ShootTimer < 0)
+                {
+                    player.ShootTimer = player.AttackSpeed;
+
+                    var newBullet = ecb.Instantiate(player.Bullet);
+
+                    ecb.SetComponent(newBullet, player.SpawnPosition());
+                }
             }
         }
     }
