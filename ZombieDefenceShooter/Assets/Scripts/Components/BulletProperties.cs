@@ -4,7 +4,7 @@ namespace ZDS_DOTS
 {
     public struct BulletProperties : IComponentData
     {
-        public uint speed;
+        public float speed;
         public uint damage;
     }
 }

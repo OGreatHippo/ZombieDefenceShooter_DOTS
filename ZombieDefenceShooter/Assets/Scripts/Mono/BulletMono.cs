@@ -5,7 +5,7 @@ namespace ZDS_DOTS
 {
     public class BulletMono : MonoBehaviour
     {
-        public uint speed;
+        public float speed;
         public uint damage;
     }
 

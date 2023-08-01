@@ -21,7 +21,7 @@ namespace ZDS_DOTS
             {
                 damage = authoring.damage,
                 attackSpeed = authoring.attackSpeed,
-                bullet = GetEntity(authoring.bullet, TransformUsageFlags.Dynamic)
+                bullet = GetEntity(authoring.bullet, TransformUsageFlags.Dynamic),
             });
 
             AddComponent<ShootTimer>(entity);

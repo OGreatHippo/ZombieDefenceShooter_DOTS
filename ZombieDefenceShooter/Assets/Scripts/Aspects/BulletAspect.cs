@@ -1,4 +1,5 @@
 using Unity.Entities;
+using Unity.Mathematics;
 using Unity.Transforms;
 
 namespace ZDS_DOTS
@@ -9,5 +10,10 @@ namespace ZDS_DOTS
 
         private readonly RefRW<BulletProperties> properties;
         private readonly RefRW<LocalTransform> localTransform;
+
+        public void Move(float deltaTime)
+        {
+            localTransform.ValueRW.Position += math.right() * properties.ValueRO.speed * deltaTime;
+        }
     }
 }
